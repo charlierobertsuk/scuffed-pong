@@ -13,12 +13,12 @@ pygame.init()
 
 # variables
 screen = pygame.display.set_mode((screen_width, screen_height))
-redsize = 15
-bluesize = 15
-ballwidth = 20
-ballradius = 10
-redsquare = pygame.Rect(920, 200, redsize, redsize * 6)
-bluesquare = pygame.Rect(80, 200, bluesize, bluesize * 6)
+redsize = 20
+bluesize = 20
+ballwidth = 100
+ballradius = 249
+redsquare = pygame.Rect(920, 200, redsize, redsize * 5)
+bluesquare = pygame.Rect(80, 200, bluesize, bluesize * 5)
 ball = pygame.Rect(screen_width // 2, screen_height // 2, ballwidth, ballradius)
 ball_speed_x = 5  # ball x axis speed
 ball_speed_y = 5  # ball y axis speed
@@ -66,7 +66,7 @@ while True: # game loop - anything that updates goes in here :)
     screen.fill(KYLE)
     pygame.draw.rect(screen, RED, redsquare)
     pygame.draw.rect(screen, BLUE, bluesquare)
-    pygame.draw.circle(screen, (PINK), (ball.x, ball.y), ballwidth, ballradius)
+    pygame.draw.rect(screen, PINK, ball)
 
     pygame.display.update()
     clock.tick(60)
