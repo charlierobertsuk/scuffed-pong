@@ -37,9 +37,9 @@ surf_y = surf_x * 6
 # Right surfboard
 right_surfboard = pygame.Rect(900, 200, surf_x, surf_y)
 
-# Right surfboard margin - so I can controll collisions with a single axis and not just with whe surfboard - prevents ball entering surfboard from top and bouncing through
+# Right surfboard margin - so I can control collisions with a single axis and not just with whe surfboard - prevents ball entering surfboard from top and bouncing through
 top_right_surfboard = pygame.Rect(900, 200, surf_x, 2)
-bottom_right_surfboard = pygame.Rect(900, 200 + surf_y, surf_x, 2)
+bottom_right_surfboard = pygame.Rect(900, 200 + (surf_y - 2), surf_x, 2)
 left_right_surfboard = pygame.Rect(900, 200, 2, surf_y)
 right_right_surfboard = pygame.Rect(900 + surf_x, 200, 2, surf_y)
 
@@ -47,6 +47,10 @@ right_right_surfboard = pygame.Rect(900 + surf_x, 200, 2, surf_y)
 left_surfboard = pygame.Rect(100, 200, surf_x, surf_y)
 
 # Left surfboard margin
+top_left_surfboard = pygame.Rect(100, 200, surf_x, 2)
+bottom_left_surfboard = pygame.Rect(100, 200 + (surf_y - 2), surf_x, 2)
+left_left_surfboard = pygame.Rect(100, 200, 2, surf_y)
+right_left_surfboard = pygame.Rect(100 + surf_x, 200, 2, surf_y)
 
 #NOTE: Make left margin and make all margins move with the surfboard then after that, sort collisions :)
 
@@ -114,6 +118,12 @@ while True:
     pygame.draw.rect(screen, BLACK, bottom_right_surfboard)
     pygame.draw.rect(screen, BLACK, left_right_surfboard)
     pygame.draw.rect(screen, BLACK, right_right_surfboard)
+
+    # Draw left surfboard margin
+    pygame.draw.rect(screen, BLACK, top_left_surfboard)
+    pygame.draw.rect(screen, BLACK, bottom_left_surfboard)
+    pygame.draw.rect(screen, BLACK, left_left_surfboard)
+    pygame.draw.rect(screen, BLACK, right_left_surfboard)
 
     # Draw ball
     pygame.draw.rect(screen, KYLE, ball)
