@@ -30,6 +30,12 @@ YELLOW = (255, 255, 0)
 AQUA = (0, 255, 255)
 PINK = (255, 255, 255)
 
+# Colour change on colision variables
+ball_colour_change = [KYLE, WHITE, GREEN, YELLOW, PINK]
+background_colour_change = [BLACK, RED, BLUE, BLACK, AQUA]
+i = 0
+j = 0
+
 # Surfboard variables
 surf_x = 15
 surf_y = surf_x * 6
@@ -107,23 +113,40 @@ while True:
     ball.x += ballspeed_x
     ball.y += ballspeed_y
 
-    # Wall colision check
-    if ball.top <= 0 or ball.bottom >= screen_height: # if ball hits top or bottom of screen
-        ballspeed_y = -ballspeed_y # move in oppisite y direction
+    # Colour change loop
+    if i != 4:
 
-    if ball.left <= 0 or ball.right >= screen_width: # if ball hits left or right of screen
-        ballspeed_x = -ballspeed_x # move in oppisite x direction
+        # Wall colision check
+        if ball.top <= 0 or ball.bottom >= screen_height: # if ball hits top or bottom of screen
+            ballspeed_y = -ballspeed_y # move in oppisite y direction
+            i += 1
 
-    # Surfboard collision check x
-    if ball.colliderect(right_left_surfboard or left_left_surfboard) or ball.colliderect(left_right_surfboard or right_right_surfboard):
-        ballspeed_x = -ballspeed_x
+        if ball.left <= 0 or ball.right >= screen_width: # if ball hits left or right of screen
+            ballspeed_x = -ballspeed_x # move in oppisite x direction
+            i += 1
 
-    # Surfboard colision check y - if ball hits top or bottom of surfboard then bounce NOTE: Dosen't work yet :(
-    if ball.colliderect(top_left_surfboard or bottom_left_surfboard) or ball.colliderect(top_right_surfboard or bottom_right_surfboard):
-        ballspeed_y = -ballspeed_y
+        # Surfboard collision check x
+        if ball.colliderect(right_left_surfboard or left_left_surfboard) or ball.colliderect(left_right_surfboard or right_right_surfboard):
+            ballspeed_x = -ballspeed_x
+            j +=1
 
-    # Background colour
-    screen.fill(WHITE)
+        # Surfboard colision check y - if ball hits top or bottom of surfboard then bounce NOTE: Dosen't work yet :(
+        if ball.colliderect(top_left_surfboard or bottom_left_surfboard) or ball.colliderect(top_right_surfboard or bottom_right_surfboard):
+            ballspeed_y = -ballspeed_y
+            j += 1
+
+        # Background colour
+        screen.fill(background_colour_change[i])
+
+    if j != 4:
+
+        # Draw ball (circle)
+        #pygame.draw.circle(screen, ball_colour_change[i], (ball.x, ball.y), 10, 10) #NOTE: Ball collides half way when left colision - pls fix
+
+        # Draw ball (square)
+        pygame.draw.rect(screen, ball_colour_change[j], ball)
+    
+# NOTE: fix if statement
 
     # Draw surfboards
     pygame.draw.rect(screen, BLUE, left_surfboard)
@@ -141,13 +164,9 @@ while True:
     pygame.draw.rect(screen, BLACK, left_left_surfboard)
     pygame.draw.rect(screen, BLACK, right_left_surfboard)
 
-    # Draw ball
-    pygame.draw.circle(screen, KYLE, (ball.x, ball.y), 10, 10)
-
     # Display update
     pygame.display.update()
 
     # Set game fps
     clock.tick(60)
 
-    # NOTE: Colour array for when a ball hits a wall (background change) or a surfboard (ball change)
