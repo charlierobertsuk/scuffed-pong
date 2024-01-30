@@ -142,7 +142,7 @@ while True:
     pygame.draw.rect(screen, BLACK, right_left_surfboard)
 
     # Draw ball
-    pygame.draw.rect(screen, KYLE, ball)
+    pygame.draw.circle(screen, KYLE, (ball.x, ball.y), 10, 10)
 
     # Display update
     pygame.display.update()
