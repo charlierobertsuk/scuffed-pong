@@ -74,18 +74,34 @@ while True:
     if key[pygame.K_w]:
         if left_surfboard.y - 5 >= 0: # if surfboard y coordinate more than 0
             left_surfboard.y -= 5
+            top_left_surfboard.y -= 5
+            bottom_left_surfboard.y -= 5
+            left_left_surfboard.y -= 5
+            right_left_surfboard.y -= 5
     
     if key[pygame.K_s]:
         if left_surfboard.y + 5 <= screen_height - surf_y: # surf_y is so it dosen't go thru floor cos surfboard collides at top
             left_surfboard.y += 5
+            top_left_surfboard.y += 5
+            bottom_left_surfboard.y += 5
+            left_left_surfboard.y += 5
+            right_left_surfboard.y += 5
 
     if key[pygame.K_UP]:
         if right_surfboard.y - 5 >= 0: # if surfboard y coordinate less than 0
             right_surfboard.y -= 5
+            top_right_surfboard.y -= 5
+            bottom_right_surfboard.y -= 5
+            left_right_surfboard.y -= 5
+            right_right_surfboard.y -= 5
 
     if key[pygame.K_DOWN]:
         if right_surfboard.y + 5 <= screen_height - surf_y: # surf_y is so it dosen't go thru floor cos surfboard collides at top
             right_surfboard.y += 5
+            top_right_surfboard.y += 5
+            bottom_right_surfboard.y += 5
+            left_right_surfboard.y += 5
+            right_right_surfboard.y += 5
 
     # Move the ball
     ball.x += ballspeed_x
@@ -99,12 +115,12 @@ while True:
         ballspeed_x = -ballspeed_x # move in oppisite x direction
 
     # Surfboard collision check x
-    if ball.colliderect(left_surfboard) or ball.colliderect(right_surfboard):
+    if ball.colliderect(right_left_surfboard or left_left_surfboard) or ball.colliderect(left_right_surfboard or right_right_surfboard):
         ballspeed_x = -ballspeed_x
 
     # Surfboard colision check y - if ball hits top or bottom of surfboard then bounce NOTE: Dosen't work yet :(
-    #if ball.colliderect(left_surfboard) or ball.colliderect(right_surfboard):
-        #ballspeed_y = -ballspeed_y
+    if ball.colliderect(top_left_surfboard or bottom_left_surfboard) or ball.colliderect(top_right_surfboard or bottom_right_surfboard):
+        ballspeed_y = -ballspeed_y
 
     # Background colour
     screen.fill(WHITE)
