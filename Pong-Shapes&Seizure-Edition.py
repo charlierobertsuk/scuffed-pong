@@ -1,7 +1,7 @@
 # This is pong
 
 # Import
-import pygame, sys
+import pygame, sys, random
 
 # Screen size
 screen_width = 1000
@@ -125,11 +125,19 @@ while True:
 
     if j != 3:
 
-        # Draw ball (circle)
-        #pygame.draw.circle(screen, ball_colour_change[i], (ball.x, ball.y), 10, 10) #NOTE: Ball collides half way when left colision - pls fix
+        #shape = random.randint (1, 1)
+        shape = 2
+        if shape == 1:
+            # Draw ball (circle)
+            pygame.draw.circle(screen, ball_colour_change[i], (ball.x, ball.y), 10, 10) #NOTE: Ball collides half way when left colision - pls fix
 
-        # Draw ball (square)
-        pygame.draw.rect(screen, ball_colour_change[j], ball)
+        if shape == 2:
+            # Draw ball (square)
+            pygame.draw.rect(screen, ball_colour_change[j], ball)
+
+        if shape == 3:
+            # Draw ball (triangle)
+            pygame.draw.polygon(screen, ball_colour_change[j], ((25,75),(320,125),(250,375)))
 
     # Surfboard collision check x
     if ball.colliderect(left_surfboard or left_surfboard) or ball.colliderect(right_surfboard or right_surfboard):
