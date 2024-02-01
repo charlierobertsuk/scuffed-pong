@@ -125,7 +125,7 @@ while True:
 
     if j != 3:
 
-        #shape = random.randint (1, 1)
+        #shape = random.randint (1, 3)
         shape = 2
         if shape == 1:
             # Draw ball (circle)

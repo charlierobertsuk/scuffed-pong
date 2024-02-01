@@ -19,6 +19,9 @@ clock = pygame.time.Clock()
 # Initiate the pygame
 pygame.init()
 
+# Font
+font = pygame.font.Font(None, 36)
+
 # State colours
 KYLE = (152, 118, 84)
 BLACK = (0, 0, 0)
@@ -49,10 +52,15 @@ bottom_left_surfboard = pygame.Rect(100, 200 + (surf_y - 2), surf_x, 2)
 
 # Ball variables
 ballsize = 20
-ballspeed = 6
+ballspeed = 0
 ballspeed_x = ballspeed
 ballspeed_y = ballspeed
 ball = pygame.Rect(half_width, half_height, ballsize, ballsize)
+
+# Score count
+leftscore = 0
+rightscore = 0
+
 
 # Game loop
 while True:
@@ -88,6 +96,10 @@ while True:
             top_right_surfboard.y += 5
             bottom_right_surfboard.y += 5
 
+    if key[pygame.K_SPACE]:
+        ballspeed_x = 6
+        ballspeed_y = 6
+
     # Move the ball
     ball.x += ballspeed_x
     ball.y += ballspeed_y
@@ -96,8 +108,19 @@ while True:
     if ball.top <= 0 or ball.bottom >= screen_height: # if ball hits top or bottom of screen
         ballspeed_y = -ballspeed_y # move in oppisite y direction
 
-    if ball.left <= 0 or ball.right >= screen_width: # if ball hits left or right of screen
+    if ball.left <= 0: # if ball hits left or right of screen
         ballspeed_x = -ballspeed_x # move in oppisite x direction
+        rightscore += 1
+        ball = pygame.Rect(half_width, half_height, ballsize, ballsize)
+        ballspeed_x = 0
+        ballspeed_y = 0
+
+    if ball.right >= screen_width: # if ball hits left or right of screen
+        ballspeed_x = -ballspeed_x # move in oppisite x direction
+        leftscore += 1
+        ball = pygame.Rect(half_width, half_height, ballsize, ballsize)
+        ballspeed_x = 0
+        ballspeed_y = 0
 
     # Background colour
     screen.fill(AQUA)
@@ -106,12 +129,30 @@ while True:
     pygame.draw.rect(screen, KYLE, ball)
 
     # Surfboard collision check x
-    if ball.colliderect(left_surfboard or left_surfboard) or ball.colliderect(right_surfboard or right_surfboard):
-        ballspeed_x = -ballspeed_x * 1.01
+    if ball.colliderect(left_surfboard or left_surfboard):
+        ballspeed_x = -ballspeed_x * 1.005
+
+    if ball.colliderect(right_surfboard or right_surfboard):
+        ballspeed_x = -ballspeed_x * 1.005
 
     # Surfboard colision check y - if ball hits top or bottom of surfboard then bounce NOTE: Dosen't work yet :(
-    if ball.colliderect(top_left_surfboard or bottom_left_surfboard) or ball.colliderect(top_right_surfboard or bottom_right_surfboard):
-        ballspeed_y = -ballspeed_y * 1.01
+    if ball.colliderect(top_left_surfboard or bottom_left_surfboard):
+        ballspeed_y = -ballspeed_y * 1.005
+
+    if ball.colliderect(top_right_surfboard or bottom_right_surfboard):
+        ballspeed_y = -ballspeed_y * 1.005
+
+    if ballspeed < 10:
+        ballspeed = 10
+
+    # Render scores
+    left_score_text = font.render(f"Left: {leftscore}", True, WHITE)
+    right_score_text = font.render(f"Right: {rightscore}", True, WHITE)
+
+    # Display scores
+    screen.blit(left_score_text, (10, 10))  # Adjust the position as needed
+    screen.blit(right_score_text, (screen_width - right_score_text.get_width() - 10, 10))  # Adjust the position as needed
+
 
     # Draw surfboards
     pygame.draw.rect(screen, BLUE, left_surfboard)
